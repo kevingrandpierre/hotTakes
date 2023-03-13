@@ -1,21 +1,21 @@
 //import des modules
-const users = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const users = require('../models/users');
 
 // inscription d'un nouvel utilisateur
 exports.signup = (req, res, next) => {
-        bcrypt.hash(req.body.password, 10)
-            .then(hash => {
-                const user = new users({
-                                           email: req.body.email,
-                                           password: hash
-                                       });
-                user.save()
-                    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                    .catch(error => res.status(400).json({ error }));
-            })
-            .catch(error => res.status(500).json({ error }));
+    bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+            const user = new users({
+                                       email: req.body.email,
+                                       password: hash
+                                   });
+            user.save()
+                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                .catch(error => res.status(400).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
 };
 
 
@@ -44,5 +44,3 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
-
-

@@ -1,14 +1,13 @@
 // import des modules
 const express = require('express');
 const router = express.Router();
-const userCtrl = require('../controllers/user');
-const joi = require('../middleware/joi');
-// const expressRateLimit = require('../middleware/rate-limit');
-
+const { signup, login } = require('../controllers/user');
+const validateUser = require('../middleware/validateUser');
+const  maxRate = require('../middleware/express-rate-limit');
 
 // Définition des routes
-router.post('/signup', joi.user, userCtrl.signup);
-router.post('/login',  userCtrl.login);
+router.post('/signup', validateUser, maxRate, signup);
+router.post('/login', validateUser, maxRate, login);
 
 // export des routes
 module.exports = router;

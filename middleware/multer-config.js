@@ -1,6 +1,11 @@
 // import des modules
 const multer = require('multer');
 
+/**
+ * @constant {MIME_TYPES} / Type de fichier autorisés
+ * @param {destination} / Callback du dossier de stockage
+ * @param {filename} / Callback du nom du fichier et de son extension
+ */
 
 // Définition des formats d'images
 const MIME_TYPES = {

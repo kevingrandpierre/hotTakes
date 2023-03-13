@@ -4,7 +4,7 @@ require('dotenv').config();
 // Import des modules
 const express = require('express');
 const mongoose = require('mongoose');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 
 // Import des routes
 const userRoutes = require('./routes/user');
@@ -13,6 +13,7 @@ const path = require('path');
 const app = express();
 
 // Connexion à la database en passant par une variable d'environnement
+mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DB_LOG,
                  { useNewUrlParser: true,
                      useUnifiedTopology: true })
@@ -20,6 +21,7 @@ mongoose.connect(process.env.DB_LOG,
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // Définition accès à l'API
+app.use(helmet());
 app.use((req, res, next) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -29,10 +31,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-// app.use(helmet());
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 // Export de l'application

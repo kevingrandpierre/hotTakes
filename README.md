@@ -1,3 +1,1 @@
 # hotTakes
-# hotTakes
-# hotTakes
