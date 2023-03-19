@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: API des sauces
+  version: 1.0.0
+paths:
+  /sauce:
+    post:
+      summary: Création d'une sauce
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                sauce:
+                  type: string
+                  description: Objet JSON contenant les données de la sauce.
+                  example: '{"name": "Sauce piquante", "manufacturer": "MaSauce", "description": "Une sauce piquante et délicieuse.", "heat": 8, "userId": "605c44f99d65f923d8a2a0f3"}'
+                image:
+                  type: string
+                  format: binary
+                  description: Fichier image de la sauce.
+      responses:
+        '201':
+          description: Objet enregistré !
+        '400':
+          description: Mauvaise requête. Vérifiez les données envoyées.
+    get:
+      summary: Récupération d'une sauce
+      parameters:
+        - in: query
+          name: id
+          required: true
+          description: ID de la sauce à récupérer.
+          schema:
+            type: string
+            example: 605c44f99d65f923d8a2a0f3
+      responses:
+        '200':
+            description: Renvoi la sauce demandée.
+
+        '404':
+          description: La sauce demandée n'a pas été trouvée.
+  /sauce/{id}:
+    put:
+      summary: Modification d'une sauce
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la sauce à modifier.
+          schema:
+            type: string
+            example: 605c44f99d65f923d8a2a0f3
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                sauce:
+                  type: string
+                  description: Objet JSON contenant les nouvelles données de la sauce.
+                  example: '{"name": "Sauce piquante", "manufacturer": "MaSauce", "description": "Une sauce piquante et délicieuse.", "heat": 9}'
+                image:
+                  type: string
+                  format: binary
+                  description: Fichier image de la sauce.
+      responses:
+        '200':
+          description: Sauce modifiée avec succès.
+        '400':
+          description: Mauvaise requête. Vérifiez les données envoyées.
+        '401':
+          description: L'utilisateur n'est pas autorisé à modifier cette sauce.
+    delete:
+      summary: Suppression d'une sauce
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la sauce à supprimer.
+          schema:
+            type: string
+            example: 605c44f99d65f923d8a2a0f3
+      responses:
+        '200':
+          description: Sauce supprimée avec succès.
+        '401':
+          description: L'utilisateur n'est pas autorisé à supprimer cette sauce.
+        '500':
+          description: Erreur du serveur. Impossible de supprimer la sauce.
+  /sauces:
+    get:
+      summary: Récupération de toutes les sauces dans la base de données
+      responses:
+        '200':
+          description: Renvoi toutes les sauces
+        '400':
+          description: Renvoi une erreur
+      parameters:
+        - in: query
+          name: find
+          schema:
+            type: string
+          description: Récupère toutes les sauces
+        - in: query
+          name: Sauces
+          schema:
+            type: object
+          description: Renvoi toutes les sauces
+        - in: query
+          name: error
+          schema:
+            type: object
+          description: Renvoi une erreur
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Renvoi le status de la requête (200, 400, 500)
+
+  /sauce/{id}/like:
+    post:
+      summary: like/dislike d'une sauce
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: L'id de la sauce
+          schema:
+            type: string
+        - in: query
+          name: like
+          required: true
+          description: Le like ou dislike
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: La sauce a été notée
+        '400':
+          description: Une erreur s'est produite lors de la notation de la sauce
+        '403':
+          description: La requête est invalide
+

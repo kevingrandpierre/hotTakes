@@ -115,7 +115,10 @@ exports.deleteSauce = (req, res, next) => {
 // Récupération de toutes les sauces dans la base de données
 /**
  * @api {get} /sauces
- * @param {Sauces} /Renvoie toutes les sauces de la base de données
+    * @param {find} /Récupére toutes les sauces
+ * @param {Sauces} /Renvoi toutes les sauces
+ * @param {error} /Renvoi une erreur
+ * @param {status} /Renvoi le status de la requête
  */
 
 exports.getAllSauces = (req, res, next) => {
