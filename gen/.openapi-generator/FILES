@@ -74,5 +74,3 @@ src/main/java/org/openapitools/client/model/InlineResponse403.java
 src/main/java/org/openapitools/client/model/InlineResponse404.java
 src/main/java/org/openapitools/client/model/InlineResponse4041.java
 src/main/java/org/openapitools/client/model/InlineResponse500.java
-src/test/java/org/openapitools/client/model/InlineObject2Test.java
-src/test/java/org/openapitools/client/model/InlineObject3Test.java

@@ -30,6 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// Définition du format des données reçues
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(express.json());
 app.use('/api/auth', userRoutes);

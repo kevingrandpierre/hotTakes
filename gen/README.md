@@ -2,7 +2,7 @@
 
 API d&#39;authentification
 - API version: 1.0.0
-  - Build date: 2023-03-24T09:32:31.177302336+01:00[Europe/Paris]
+  - Build date: 2023-03-24T10:14:40.090517219+01:00[Europe/Paris]
 
 Une API d'authentification sécurisée pour les utilisateurs
 
