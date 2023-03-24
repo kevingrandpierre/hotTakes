@@ -2,14 +2,13 @@
 const Sauces = require('../models/sauces');
 const fs = require('fs');
 
-// Création d'une sauce
 /**
+ * @description Création d'une sauce
  * @api {get} /sauce
  * @param {saucesObject} /Recupére le corps de la requête
  * @param {sauces} /Prépare l'envoi du formulaire et de l'image
  * @param {save} /Sauvegarde les données dans la DB
  */
-
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
@@ -27,13 +26,12 @@ exports.createSauce = (req, res, next) => {
 };
 
 
-// Récupération d'une sauce
 /**
+ * @description Récupération d'une sauce
  * @api {get} /sauce/:id
  * @param {findOne} /Récupére l'id de la sauce
  * @param {Sauces} /Renvoi une sauce
  */
-
 exports.getOneSauce = (req, res, next) => {
     Sauces.findOne({
                       _id: req.params.id
@@ -51,15 +49,13 @@ exports.getOneSauce = (req, res, next) => {
 
 };
 
-
-// Modification d'une sauce
 /**
+ * @description Modification d'une sauce
  * @api {put} /sauce/:id
  * @param {findOne} /Recupére l'id de la sauce
  * @param {saucesObject} /Recupére le corps de la requête
  * @param {updateOne} /Sauvegarde les nouvelles données
  */
-
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
@@ -85,14 +81,13 @@ exports.modifySauce = (req, res, next) => {
 };
 
 
-// Suppression d'une sauce
 /**
+ * @description Suppression d'une sauce
  * @api {delete} /sauce/:id
  * @param {findOne} /Recupére l'id de la sauce, vérifie que l'utilisateur soit le propriétaire de la sauce
  * @param {filename} /Récupére l'url de l'image et la supprime
  * @param {deleteOne} /Supprime la sauce
  */
-
 exports.deleteSauce = (req, res, next) => {
     Sauces.findOne({ _id: req.params.id })
         .then(sauce => {
@@ -112,31 +107,32 @@ exports.deleteSauce = (req, res, next) => {
         });
 };
 
-// Récupération de toutes les sauces dans la base de données
 /**
+ * @description Récupération de toutes les sauces
  * @api {get} /sauces
-    * @param {find} /Récupére toutes les sauces
+ * @param {find} /Récupére toutes les sauces
  * @param {Sauces} /Renvoi toutes les sauces
  * @param {error} /Renvoi une erreur
  * @param {status} /Renvoi le status de la requête
  */
-
 exports.getAllSauces = (req, res, next) => {
     Sauces.find()
         .then((sauce) => {res.status(200).json(sauce) })
         .catch((error) => {res.status(400).json({error: error})});
 };
 
-// like/dislike d'une sauce
 /**
+ * @description Like/dislike d'une sauce
  * @api {post} /sauce/:id/like
  * @param {findOne} /Recupére l'id de la sauce, vérifie que l'utilisateur soit le propriétaire de la sauce
  * @switch /Ajout un like, un dislike ou le supprime. Vérification du userId pour empecher plusieurs votes
  * @param {sauces.likes} /Affiche le nombre d'utilisateur ayant liké
  * @param {sauces.disLikes} /Affiche le nombre d'utilisateur ayant disliké
  * @param {udpateOne} /Met à jour la sauce
+ * @param {error} /Renvoi une erreur
+ * @param {status} /Renvoi le status de la requête
+ * @param {message} /Renvoi un message
  */
-
 exports.notationSauce = (req, res, next) => {
     Sauces.findOne({ _id: req.params.id })
         .then(sauces => {

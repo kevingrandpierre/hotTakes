@@ -1,0 +1,557 @@
+openapi: 3.0.0
+info:
+  description: Une API d'authentification sécurisée pour les utilisateurs
+  title: API d'authentification
+  version: 1.0.0
+servers:
+- url: http://localhost:3000
+paths:
+  /signup:
+    post:
+      description: Crée un nouvel utilisateur avec un e-mail et un mot de passe et
+        le sauvegarde dans la base de données
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  format: email
+                  type: string
+                password:
+                  type: string
+              type: object
+        description: Les informations de l'utilisateur à créer
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+          description: Utilisateur créé avec succès
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+          description: Requête invalide
+      summary: Inscription d'un nouvel utilisateur
+      x-contentType: application/json
+      x-accepts: application/json
+    x-swagger-router-controller: users
+  /login:
+    post:
+      description: Vérifie les informations de connexion d'un utilisateur et renvoie
+        un jeton d'authentification JWT s'il est valide
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  format: email
+                  type: string
+                password:
+                  type: string
+              type: object
+        description: Les informations de connexion de l'utilisateur
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Connexion réussie
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+          description: Non autorisé
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+          description: Erreur serveur interne
+      summary: Connexion d'un utilisateur existant
+      x-contentType: application/json
+      x-accepts: application/json
+    x-swagger-router-controller: users
+  /sauce:
+    get:
+      parameters:
+      - description: ID de la sauce à récupérer.
+        explode: true
+        in: query
+        name: id
+        required: true
+        schema:
+          example: 605c44f99d65f923d8a2a0f3
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: Renvoi la sauce demandée.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+          description: La sauce demandée n'a pas été trouvée.
+      summary: Récupération d'une sauce
+      x-accepts: application/json
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_2'
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  example: Sauce piquante
+                  type: string
+                manufacturer:
+                  example: MaSauce
+                  type: string
+                description:
+                  example: Une sauce piquante et délicieuse.
+                  type: string
+                mainPepper:
+                  example: Piment
+                  type: string
+                imageUrl:
+                  example: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+                  type: string
+                heat:
+                  example: 8
+                  type: number
+              type: object
+        description: Les informations de la sauce à créer
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+          description: Objet enregistré !
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_1'
+          description: Mauvaise requête. Vérifiez les données envoyées.
+      summary: Création d'une sauce
+      x-contentType: application/json
+      x-accepts: application/json
+  /sauce/{id}:
+    delete:
+      parameters:
+      - description: ID de la sauce à supprimer.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 605c44f99d65f923d8a2a0f3
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+          description: Sauce supprimée avec succès.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401_2'
+          description: L'utilisateur n'est pas autorisé à supprimer cette sauce.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+          description: Erreur du serveur. Impossible de supprimer la sauce.
+      summary: Suppression d'une sauce
+      x-accepts: application/json
+    put:
+      parameters:
+      - description: ID de la sauce à modifier.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 605c44f99d65f923d8a2a0f3
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_3'
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  example: Sauce piquante
+                  type: string
+                manufacturer:
+                  example: MaSauce
+                  type: string
+                description:
+                  example: Une sauce piquante et délicieuse.
+                  type: string
+                mainPepper:
+                  example: Piment
+                  type: string
+                imageUrl:
+                  example: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+                  type: string
+                heat:
+                  example: 8
+                  type: number
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+          description: Sauce modifiée avec succès.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_1'
+          description: Mauvaise requête. Vérifiez les données envoyées.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401_1'
+          description: L'utilisateur n'est pas autorisé à modifier cette sauce.
+      summary: Modification d'une sauce
+      x-contentType: application/json
+      x-accepts: application/json
+  /sauces:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_1'
+                type: array
+          description: Renvoi un tableau contenant toutes les sauces.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404_1'
+          description: Aucune sauce n'a été trouvée.
+      summary: Récupération de toutes les sauces dans la base de données
+      x-accepts: application/json
+  /sauce/{id}/like:
+    post:
+      parameters:
+      - description: L'id de la sauce
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: like ou dislike (1 ou -1)
+        explode: true
+        in: query
+        name: like
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_2'
+          description: La sauce a été notée
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_2'
+          description: Une erreur s'est produite lors de la notation de la sauce
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_403'
+          description: La requête est invalide
+      summary: like/dislike d'une sauce
+      x-accepts: application/json
+components:
+  requestBodies:
+    inline_object_1:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+      required: true
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+    inline_object_3:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_3'
+    inline_object_2:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_2'
+      required: true
+  schemas:
+    inline_object_1:
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          type: string
+      type: object
+    inline_response_401_2:
+      properties:
+        error:
+          example: L'utilisateur n'est pas autorisé à supprimer cette sauce.
+          type: string
+      type: object
+    inline_response_404:
+      properties:
+        error:
+          example: La sauce demandée n'a pas été trouvée.
+          type: string
+      type: object
+    inline_response_404_1:
+      properties:
+        error:
+          example: Aucune sauce n'a été trouvée.
+          type: string
+      type: object
+    inline_object_3:
+      properties:
+        name:
+          example: Sauce piquante
+          type: string
+        manufacturer:
+          example: MaSauce
+          type: string
+        description:
+          example: Une sauce piquante et délicieuse.
+          type: string
+        mainPepper:
+          example: Piment
+          type: string
+        imageUrl:
+          example: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+          type: string
+        heat:
+          example: 8
+          type: number
+      type: object
+    inline_object_2:
+      properties:
+        name:
+          example: Sauce piquante
+          type: string
+        manufacturer:
+          example: MaSauce
+          type: string
+        description:
+          example: Une sauce piquante et délicieuse.
+          type: string
+        mainPepper:
+          example: Piment
+          type: string
+        imageUrl:
+          example: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+          type: string
+        heat:
+          example: 8
+          type: number
+      type: object
+    inline_response_201:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
+    inline_response_200_1:
+      example:
+        heat: 8
+        imageUrl: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+        name: Sauce piquante
+        mainPepper: Piment
+        description: Une sauce piquante et délicieuse.
+        dislikes: 0
+        _id: 605c44f99d65f923d8a2a0f3
+        usersLiked: []
+        usersDisliked: []
+        userId: 605c44f99d65f923d8a2a0f3
+        manufacturer: MaSauce
+        likes: 0
+      properties:
+        _id:
+          example: 605c44f99d65f923d8a2a0f3
+          type: string
+        name:
+          example: Sauce piquante
+          type: string
+        manufacturer:
+          example: MaSauce
+          type: string
+        description:
+          example: Une sauce piquante et délicieuse.
+          type: string
+        mainPepper:
+          example: Piment
+          type: string
+        imageUrl:
+          example: http://localhost:3000/images/605c44f99d65f923d8a2a0f3.jpg
+          type: string
+        heat:
+          example: 8
+          type: number
+        likes:
+          example: 0
+          type: number
+        dislikes:
+          example: 0
+          type: number
+        usersLiked:
+          example: []
+          items:
+            type: string
+          type: array
+        usersDisliked:
+          example: []
+          items:
+            type: string
+          type: array
+        userId:
+          example: 605c44f99d65f923d8a2a0f3
+          type: string
+      type: object
+    inline_object:
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          type: string
+      type: object
+    inline_response_200:
+      example:
+        userId: userId
+        token: token
+      properties:
+        userId:
+          type: string
+        token:
+          type: string
+      type: object
+    inline_response_201_1:
+      example:
+        message: Objet enregistré !
+      properties:
+        message:
+          example: Objet enregistré !
+          type: string
+      type: object
+    inline_response_200_2:
+      example:
+        message: Sauce modifiée avec succès.
+      properties:
+        message:
+          example: Sauce modifiée avec succès.
+          type: string
+      type: object
+    inline_response_200_3:
+      example:
+        message: Sauce supprimée avec succès.
+      properties:
+        message:
+          example: Sauce supprimée avec succès.
+          type: string
+      type: object
+    inline_response_201_2:
+      example:
+        message: La sauce a été notée
+      properties:
+        message:
+          example: La sauce a été notée
+          type: string
+      type: object
+    inline_response_403:
+      properties:
+        error:
+          example: La requête est invalide
+          type: string
+      type: object
+    inline_response_401:
+      properties:
+        error:
+          type: string
+      type: object
+    inline_response_401_1:
+      properties:
+        error:
+          example: L'utilisateur n'est pas autorisé à modifier cette sauce.
+          type: string
+      type: object
+    inline_response_500:
+      properties:
+        error:
+          example: Erreur du serveur. Impossible de supprimer la sauce.
+          type: string
+      type: object
+    inline_response_400_2:
+      properties:
+        error:
+          example: Une erreur s'est produite lors de la notation de la sauce
+          type: string
+      type: object
+    inline_response_400:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        error:
+          type: string
+      type: object
+    inline_response_400_1:
+      properties:
+        error:
+          example: Mauvaise requête. Vérifiez les données envoyées.
+          type: string
+      type: object
+
