@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
-  description: Une API d'authentification sécurisée pour les utilisateurs
-  title: API d'authentification
+  description: Une API sécurisée pour les utilisateurs de l'application HotTakes.
+    Les utilisateurs peuvent créer des sauces, les modifier, les supprimer et les liker ou les disliker.
+  title: API HotTakes
   version: 1.0.0
 servers:
 - url: http://localhost:3000
